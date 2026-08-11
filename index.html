@@ -402,6 +402,75 @@ confirmButtonText:"OK"
 {% endwith %}
 
 </script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
 
+    document.getElementById("analyzeBtn").addEventListener("click", function () {
+
+        let studentId = document.getElementById("studentSelect").value;
+
+        if (studentId === "") {
+            alert("Please select a student");
+            return;
+        }
+
+        fetch("/analyze_student", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                student_id: studentId
+            })
+        })
+
+        .then(response => response.json())
+
+        .then(data => {
+
+            document.getElementById("aiComment").innerHTML =
+                "<b>Name:</b> " + data.name + "<br>" +
+                "<b>Subject:</b> " + data.subject + "<br>" +
+                "<b>Mark:</b> " + data.mark + "<br>" +
+                "<b>Attendance:</b> " + data.attendance +
+                "<hr><b>AI Feedback:</b> Generating...";
+
+            return fetch("/generate-ai-feedback", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    name: data.name,
+                    subject: data.subject,
+                    mark: data.mark,
+                    attendance: data.attendance
+                })
+            });
+
+        })
+
+        .then(response => response.json())
+
+        .then(data => {
+
+            document.getElementById("aiComment").innerHTML +=
+                "<hr><b>AI Feedback:</b><br>" + data.feedback;
+
+        })
+
+        .catch(error => {
+
+            console.error(error);
+
+            document.getElementById("aiComment").innerHTML =
+                "<b>Error:</b> Something went wrong. Check terminal.";
+
+        });
+
+    });   // 🔴 Analyze button click closing
+
+});       // 🔴 DOMContentLoaded closing
+</script>
 </body>
 </html>
