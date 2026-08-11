@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>dashboard</title>
+<!------alret link-->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!--bootsarba link--> 
+  <link rel="stylesheet"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+  <script src="script.js"></script>
+
+<!--icons link---->
+  <script type="module"
+          src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+
+  <script nomodule
+          src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</head>
+
+<style>
+ * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "poppins", sans-serif;
+    }
+    body {
+      min-height: 10vh;
+    }
+    a {
+      text-decoration: none;
+    }
+
+    li {
+      list-style: none;
+    }
+    h3 {
+      color: gray;
+    }
+    .side-menu {
+      position: fixed;
+      background: rgb(79, 24, 106);
+      width: 23vw;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding-top: 20px;
+      
+    }
+    .side-menu .brand-name {
+      height: 12vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .brand-name h1 {
+      color: white;
+    }
+    .link a {
+      text-decoration: none;
+      font-size: 20px;
+      color: #f1f1f1;
+      font-size: 24px;
+      padding: 12px 40px; /*-----------sidebar link adjust--------------*/
+      color: white;
+      display: flex;
+      align-items: center;
+
+    }
+    .link a:hover {
+      background: white;
+      color: #f92288;
+
+    }
+     ion-icon{
+         font-size:40px;
+        padding:10px;
+    }
+    .brand-name ion-icon{
+      font-size:70px;
+      color:white;
+      padding:6px;
+
+    }
+
+
+.header{
+    height: 80px;
+    width: auto;
+    background: #fbfbfb;
+     box-shadow: 0 4px 8px 0 rgb(0, 0, 0, 0.2);
+
+}
+ /*----------link in view more---------------*/
+.btn {
+      background: #f92288;
+      color: white;
+      padding: 5px 10px;
+      text-align: center;
+      margin-left: 80px;
+       border-radius: 3px ;
+
+
+    }
+    .btn:hover {
+      color: #f92288;
+      background: white;
+      padding: 3px 8px;
+      /* border: 2px solid #f92288; */
+    }
+
+     a button {
+      padding: 9px 25px;
+      background-color: #f92288;
+      color: white;
+      border-radius: 5px;
+      border: 1px solid #f92288;
+      box-shadow: 0 4px 8px 0 rgb(0, 0, 0, 0.2), 0 6px 20px 0 rgb(0, 0, 0, 0.19);
+      margin-left: 450px;
+      margin-top: 10px;
+      outline:none;
+    }
+    a button:hover {
+      color: #f92288;
+      background: white;
+      outline:none;
+    }
+     /* user link a  */
+    .user a{
+         margin-left:350px;
+         color: white;
+         margin-top: 20px;
+         display:flex;
+         justify-content:space-evenly;
+    }
+    .btn2{
+        margin-left: 450px;
+    }
+    .contact a{
+    margin-left:50px;
+    }
+
+.nav{
+    display:flex;
+}
+  /* cards link a  */
+   .content {
+      position: relative;
+      margin-top: 5vh;
+      min-height: 50vh;
+      margin-left: 320px;
+
+    }
+  .content .cards {
+      padding: 20px 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-evenly;
+
+    }
+  .content .cards .card {
+      width: 280px;
+      height: 210px;
+      background: white;
+      margin: 20px ;
+      display: flex;
+      justify-content: space-around;
+      box-shadow: 0 4px 8px 0 rgb(0, 0, 0, 0.2), 0 6px 20px 0 rgb(0, 0, 0, 0.19);
+      border-radius: 15px;
+    }
+    .box h3{
+
+        margin-left:50px ;
+    }
+    .box h1{
+         margin-top: 5px;
+        font-size: 50px;
+        margin-left:80px ;
+    }
+    .imgs{
+        margin-left: 80px;
+        margin-top: 10px;
+    }
+    
+</style>
+<body>
+
+<h5 class="card-header text-center"
+    style="
+    background-color: rgb(79, 24, 106);
+    color: white;
+    font-size: 42px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 25px 0;
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.4);
+    ">
+
+    <ion-icon name="school-outline"
+    style="
+    font-size: 60px;
+    vertical-align: middle;
+    margin-right: 15px;
+    ">
+    </ion-icon>
+
+    Student Management System
+
+</h5>
+  <div class="side-menu">
+      <div class="brand-name">
+      <ion-icon name="list-circle-outline"></ion-icon><h1> Menu </h1>
+      </div>
+      <div class="link">
+        
+      <a href="/import-page">
+    <ion-icon name="add-circle-outline"></ion-icon>
+    <span>Import Data</span>
+</a>
+        
+        <a href="/clean-page"
+          ><ion-icon name="brush-outline"></ion-icon>
+<span>Clean data </span
+        ></a>
+        <a href="dashboard"
+          > <ion-icon name="bar-chart-sharp"></ion-icon><span>Dashboard</span
+        ></a>
+
+        <a href="ai-box">
+          <ion-icon name="pulse-sharp"></ion-icon>Anlayze data<span></span>
+        </a>
+
+          <a href="export-report">
+           <ion-icon name="document-text-sharp"></ion-icon><span>Export Reports</span>
+        </a>
+
+          <a href="home-page">
+           <ion-icon name="caret-forward"></ion-icon><span>Exit</span>
+        </a>
+      </div>
+    </div>
+    <div><span></span></div>
+    
+</div>
+</div>
+
+<!-- AI Feedback Section -->
+<!--col-md-7 = Bootstrap 12-column system-la 7 columns width-->
+<div class="container mt-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-7">
+
+            <div class="card">
+
+                <div class="card-header bg-dark text-white text-center">
+                    AI Student Performance Feedback
+                </div>
+
+                <div class="card-body">
+
+                    <h5>Select Student</h5>
+
+                      <select
+                        class="form-control"
+                        id="studentSelect"
+                    >
+                        
+                        <option value="">Choose Student</option>
+
+                        {% for student in students %}<!----start  loop- value within curlybracket -->
+                        <option value="{{ student.Student_ID }}"> <!--option value na yto store avlue-->
+                            {{ student.Name }}<!--athoda name-->
+                        </option>
+                        {% endfor %}<!----end loop-->
+                      </select> 
+
+                    <button
+                          id="analyzeBtn"
+                          class="btn btn-primary mt-3">
+                          Analyze Student
+                      </button>
+                    <hr>
+
+                    <h5>AI Comment:</h5>
+
+                    <div class="alert alert-info" id="aiComment">
+                        Feedback will appear here...
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+</div>
+
+<!------------to fetch a dataa into sqwl to ai box---
+Dropdown-la user select panna Student_ID edukkrom. studentId → 101
+null na if then request a roue  @app.route("/analyze_student", methods=["POST"])
+Data-va store / send / receive panna use panra oru simple format
+json{
+  "name": "Ravi",
+  "mark": 85
+}JavaScript ↔ Flask data exchange pana use panuthom 
+
+
+------------------------------>
+<script>
+  
+document.addEventListener("DOMContentLoaded", function () {
+
+    document.getElementById("analyzeBtn").addEventListener("click", function () {
+
+        let studentId = document.getElementById("studentSelect").value;
+
+        if (studentId == "") {
+            alert("Please select a student");
+            return;
+        }
+
+        fetch("/analyze_student", {
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+                student_id: studentId
+            })
+
+        })
+
+        .then(response => response.json())
+
+        .then(data => {
+
+            document.getElementById("aiComment").innerHTML =
+            "<b>Name:</b> " + data.name + "<br>" +
+            "<b>Subject:</b> " + data.subject + "<br>" +
+            "<b>Mark:</b> " + data.mark + "<br>" +
+            "<b>Attendance:</b> " + data.attendance;
+
+        });
+
+    });
+
+});
+</script>
+
+<!----alret link-->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+
+{% if messages %}
+
+{% for category,message in messages %}
+
+Swal.fire({
+
+title:
+{% if category == "success" %}
+"Success!"
+{% else %}
+"Error!"
+{% endif %},
+
+text:"{{message}}",
+
+icon:
+{% if category == "success" %}
+"success"
+{% else %}
+"error"
+{% endif %},
+
+confirmButtonText:"OK"
+
+});
+
+{% endfor %}
+
+{% endif %}
+
+{% endwith %}
+
+</script>
+
+</body>
+</html>

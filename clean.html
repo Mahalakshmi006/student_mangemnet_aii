@@ -1,0 +1,108 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Clean Data</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!--the link was important to acces a sweet alret ------(|)-------->
+
+    <!--bootsarba link-->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+
+    <!--icons link---->
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+    ></script>
+
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+    ></script>
+  </head>
+
+  <style>
+    ion-icon {
+      font-size: 40px;
+      padding: 10px;
+    }
+    .brand-name ion-icon {
+      font-size: 70px;
+      color: white;
+      padding: 6px;
+    }
+  </style>
+
+  <body class="container mt-5">
+    <a href="/home-page">
+      <ion-icon name="home-outline"></ion-icon>
+    </a>
+
+    <div class="container mt-5">
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <div class="card shadow-lg border-0">
+            <div class="card-header bg-dark text-white text-center">
+              <h3>🧹 Data Cleaning</h3>
+            </div>
+
+            <div class="card-body text-center">
+              <h5 class="mb-3">Clean Student Data</h5>
+
+              <p class="text-muted">
+                Remove duplicates, handle missing values and validate student
+                records.
+              </p>
+
+              <form action="/clean-data" method="POST">
+                <button type="submit" class="btn btn-primary px-5 mt-3">
+                  Start Cleaning
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+
+      {% if messages %}
+
+      {% for category,message in messages %}
+
+      Swal.fire({
+
+      title:
+      {% if category == "success" %}
+      "Success!"
+      {% else %}
+      "Error!"
+      {% endif %},
+
+      text:"{{message}}",
+
+      icon:
+      {% if category == "success" %}
+      "success"
+      {% else %}
+      "error"
+      {% endif %},
+
+      confirmButtonText:"OK"
+
+      });
+
+      {% endfor %}
+
+      {% endif %}
+
+      {% endwith %}
+    </script>
+  </body>
+</html>

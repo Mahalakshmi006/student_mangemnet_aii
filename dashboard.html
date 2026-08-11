@@ -1,0 +1,490 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Student Dashboard</title>
+     <!------alret link-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+     <!--bootsarba link-->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+<!---=chart link-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+    <!--icons link---->
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+    ></script>
+
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+    ></script>
+
+  </head>
+<style>
+    ion-icon {
+      font-size: 40px;
+      padding: 10px;
+    }
+    .brand-name ion-icon {
+      font-size: 70px;
+      color: white;
+      padding: 6px;
+    }
+  </style>
+  <body>
+    <a href="/home-page">
+      <ion-icon name="home-outline"></ion-icon>
+    </a>
+
+    <div class="row mt-5 justify-content-center">
+      <!-- Total Students -->
+      <div class="col-md-2 mb-3">
+        <div class="card bg-primary text-white">
+          <div class="card-body text-center">
+            <h5>Total Students</h5>
+            <h2>{{ total }}</h2>
+          </div>
+        </div>
+      </div>
+
+      <!-- Average Mark -->
+      <div class="col-md-2 mb-3">
+        <div class="card bg-info text-white">
+          <div class="card-body text-center">
+            <h5>Average Mark</h5>
+            <h2>{{ avg|round(2) }}</h2>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pass Students -->
+      <div class="col-md-2 mb-3">
+        <div class="card bg-success text-white">
+          <div class="card-body text-center">
+            <h5>Pass Students</h5>
+            <h2>{{ passed }}</h2>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fail Students -->
+      <div class="col-md-2 mb-3">
+        <div class="card bg-danger text-white">
+          <div class="card-body text-center">
+            <h5>Fail Students</h5>
+            <h2>{{ failed }}</h2>
+          </div>
+        </div>
+      </div>
+
+      <!-- Average Attendance -->
+      <div class="col-md-2 mb-3">
+        <div class="card bg-warning text-white">
+          <div class="card-body text-center">
+            <h5>Avg Attendance</h5>
+            <h2>{{ attendance|round(2) }}</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- subject wise anlaysysis  BAR CHART--- -->
+
+    <div class="row mt-4 justify-content-center">
+      <!----one box inside a 2 chart-->
+      <!-- Subject Chart ----- chart 1 -->
+
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header bg-info text-white text-center">
+            Subject Wise Students
+          </div>
+          <div class="card-body">
+            <canvas id="subjectChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pass vs Fail -- chart2---->
+
+      <div class="col-md-3">
+        <div class="card">
+          <div class="card-header bg-info text-white text-center">
+            Pass vs Fail
+          </div>
+          <div class="card-body">
+            <canvas id="passFailChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-----end-->
+
+    <!-- top 5 -- chart3-------->
+
+    <div class="row mt-4 justify-content-center">
+      <div class="col-md-5 mb-4">
+        <div class="card">
+          <div class="card-header bg-info text-white text-center">
+            Top 5 Students
+          </div>
+          <div class="card-body">
+            <canvas id="Top5std" height="180"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- bottom 5 -- chart3-->
+
+        <div class="col-md-5 mb-4">
+          <div class="card">
+            <div class="card-header bg-info text-white text-center">
+              Bottom 5 Students
+            </div>
+
+            <div class="card-body">
+              <canvas id="bot5std" height="180"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<!-- Performance Trend Line Chart -->
+
+ <div class="row mt-4 justify-content-center">
+
+    <div class="col-md-8">
+
+        <div class="card">
+
+            <div class="card-header bg-info text-white text-center">
+                Attendance Trend Analysis
+            </div>
+
+            <div class="card-body">
+
+                <canvas id="attendanceTrendChart"></canvas>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+    <!-- SUBJECT CHART  -->
+
+    <script>
+
+            // Connect the canvas element
+            const subjectctx = document.getElementById("subjectChart");
+
+            // Create Bar Chart
+            new Chart(subjectctx,{
+
+                type:"bar",
+
+                data:{
+
+                    // X-axis labels
+                    labels: {{ subjects|tojson }},
+
+                    datasets:[{
+
+                        // Chart legend
+                        label:"Students",
+                        data: {{ counts|tojson }}, // Y-axis values
+
+                        backgroundColor: "#3B82F6",   // Bar color
+                        borderColor: "#1D4ED8",       // Border color
+                        
+                        borderWidth:3,
+                        borderRadius:6,
+                        
+
+                    }]
+
+                },
+
+                options:{
+
+          responsive:true,
+
+          scales:{
+
+              x:{
+                  grid:{
+                      display:false
+                  }
+              },
+
+              y:{
+                  beginAtZero:true,
+
+                  grid:{
+                      display:false
+                  }
+              }
+
+          }
+
+      }
+
+            });
+    </script>
+
+<!-- pass/fail CHART  -->
+
+    <script>
+
+        const ctx = document.getElementById("passFailChart");
+
+        new Chart(ctx,{
+
+            type:"pie",
+
+            data:{
+
+                labels:["Pass","Fail"],
+
+                datasets:[{
+
+                    data:[
+                        {{ passed }},
+                        {{ failed }}
+                    ],
+                    backgroundColor:[
+                    "#1edc24",   // Pass
+                    "#EF4444"    // Fail
+      ],
+
+                  borderColor:[
+                  "#1edc24",
+                  "#d03a3a"
+                      ],
+
+                }]
+
+            },
+
+            options:{
+                responsive:true
+            }
+
+        });
+    </script>
+
+<!-- pass/top 5 CHART  -->
+
+    <script>
+
+      // Connect the canvas element
+      const topctx = document.getElementById("Top5std");
+
+      // Create Bar Chart
+      new Chart(topctx,{
+
+          type:"bar",
+
+          data:{
+
+              // X-axis labels
+              labels: {{ top_names|tojson }},
+
+              datasets:[{
+
+                  // Chart legend
+                  label:"Marks",
+
+                  // Y-axis values
+                  data:{{ top_marks|tojson }},
+                  backgroundColor: "#8B5CF6",
+                  borderColor: "#6D28D9",
+                  borderWidth:1,
+                  borderRadius:8
+
+              }]
+
+          },
+
+          options:{
+
+              responsive:true,
+               indexAxis:'y',//to chaneg a position chart
+
+              scales:{
+
+                 x:{
+            grid:{
+                display:false
+            }
+        },
+                  y:{
+                      beginAtZero:true,
+                      max:100,
+
+
+                       grid:{
+                display:false
+            }
+                  }
+              }
+
+          }
+
+      });
+    </script>
+
+    <!-- bottom CHART  -->
+
+    <script>
+
+            // Connect the canvas element
+            const botctx = document.getElementById("bot5std");
+
+            // Create Bar Chart
+            new Chart(botctx,{
+
+                type:"bar",
+
+                data:{
+
+                    // X-axis labels
+                    labels: {{ bottom_names|tojson }},
+
+                    datasets:[{
+
+                        // Chart legend
+                        label:"Marks",
+
+                        // Y-axis values
+                        data:{{ bottom_marks|tojson }},
+
+                        backgroundColor: "#8B5CF6",
+                        borderColor: "#6D28D9",
+                        borderWidth:1,
+                        borderRadius:8
+
+                    }]
+
+                },
+
+               options:{
+
+          responsive:true,
+
+          indexAxis:'y',
+
+          scales:{
+
+              x:{
+
+                  beginAtZero:true,
+
+                  max:100,
+
+                  grid:{
+
+                      display:false
+
+                  }
+
+              },
+
+              y:{
+
+                  grid:{
+
+                      display:false
+
+                  }
+
+              }
+
+          }
+      }
+
+            });
+    </script>
+
+<!--attenadence chaart------------------------------------------>
+<!--<div> → normal container / box
+<canvas> → drawing area; Chart.js adhula chart draw pannum-->
+
+<script>
+
+const attendancectx = document.getElementById("attendanceTrendChart");
+
+
+new Chart(attendancectx,{
+
+    type:"line",
+
+    data:{
+
+        labels: {{ attendance_names|tojson }},
+
+        datasets:[{
+
+            label:"Attendance %",
+
+            data: {{ attendance_values|tojson }},
+
+            borderWidth:3,
+
+            tension:0.4,
+
+            fill:false,
+
+            pointRadius:5
+
+        }]
+
+    },
+
+
+    options:{
+
+        responsive:true,
+
+        scales:{
+
+            x:{
+                grid:{
+                    display:false
+                }
+            },
+
+            y:{
+
+                beginAtZero:true,
+
+                max:100,
+
+                grid:{
+                    display:false
+                }
+
+            }
+
+        }
+
+    }
+
+});
+
+</script>
+
+  </body>
+</html>
