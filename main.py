@@ -3,7 +3,6 @@ from ai_anlysiss import generate_feedback
 from io import BytesIO
 # aligned ah format panna required tools
 from openpyxl.styles import Font, Alignment, Border, Side
-#from google import genai
 import pandas as pd  
 from flask import Flask, render_template, request, jsonify, flash, redirect, url_for, send_file
 #HTML page open/display panna render,
@@ -28,7 +27,6 @@ connection = pyodbc.connect(
 
 cursor = connection.cursor()
 
-#AIzaSyB-klr5sJ3Jh2_4-hOMs370Xw1a6NNoUo8 api key for google genai api key
 
 #--------------------- Home page-----------------------
 
@@ -41,6 +39,7 @@ def home():
     df = pd.read_sql(query, connection)
 
     students = df.to_dict(orient="records")
+    
 
     return render_template(
         "index.html",
@@ -102,24 +101,40 @@ def ai_feedback():
 @app.route("/analyze_student", methods=["POST"])
 def analyze_student():
 
-    data = request.get_json()
+    try:
+        data = request.get_json()
+        student_id = data["student_id"]
 
-    student_id = data["student_id"]
+        cursor = connection.cursor()
 
-    cursor.execute("""
-        SELECT *
-        FROM Clean_Students
-        WHERE Student_ID = ?
-    """, student_id)
+        cursor.execute("""
+            SELECT Name, Subject, Mark, Attendance
+            FROM Clean_Students
+            WHERE Student_ID = ?
+        """, student_id)
 
-    student = cursor.fetchone()
+        student = cursor.fetchone()
 
-    return jsonify({
-        "name": student.Name,
-        "subject": student.Subject,
-        "mark": student.Mark,
-        "attendance": student.Attendance
-    })
+        cursor.close()
+
+        if student is None:
+            return jsonify({
+                "error": "Student not found"
+            }), 404
+
+        return jsonify({
+            "name": student[0],
+            "subject": student[1],
+            "mark": student[2],
+            "attendance": student[3]
+        })
+
+    except Exception as e:
+        print("ANALYZE ERROR:", e)
+
+        return jsonify({
+            "error": str(e)
+        }), 500
 #-----------------------------------------------------------------
 
 #import data exl file
