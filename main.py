@@ -8,7 +8,7 @@ from flask import Flask, render_template, request, jsonify, flash, redirect, url
 #HTML page open/display panna render,
 #JSON response send panna jsonify,
 # Success/Error popup message send panna flash
-
+#Flask → Python-la web application build panna use panra framework
 import pyodbc
 #this are libreise to send & receive a files & to connect sql
 #Jinja = Flask/Python data-va HTML-la display panna bridge.
@@ -556,7 +556,8 @@ def dashboard():
 
 )
     
-
+#"Python, Flask application ஒன்றை creat panum
+# secret_key = Flask-oda secure message/session handling-ku use panra key.
  # this is a main owner not writable no code run 
 if __name__ == "__main__":
     app.run(debug=True)
